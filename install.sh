@@ -204,6 +204,7 @@ stow_dotfiles() {
     nvim
     tmux
     waybar
+    fastfetch
     qt5ct
     qt6ct
   )
