@@ -73,6 +73,7 @@ PAC_CORE=(
   zsh zsh-completions
   zoxide
   lsd
+  starship
   fastfetch
   btop
   nano
