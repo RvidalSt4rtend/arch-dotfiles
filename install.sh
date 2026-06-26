@@ -239,19 +239,52 @@ stow_dotfiles() {
   else
     info "TPM already present"
   fi
+
+  # Auto-install tmux plugins via TPM
+  step "Installing tmux plugins"
+  if [[ -x "$tpm_dir/bin/install_plugins" ]]; then
+    TMUX_PLUGIN_MANAGER_PATH="$HOME/.config/tmux/plugins" \
+      "$tpm_dir/bin/install_plugins" 2>&1 | while read -r line; do info "$line"; done
+    info "tmux plugins installed"
+  else
+    warn "TPM install_plugins script not found, skipping"
+  fi
+
+  # Pre-install nvim plugins (lazy.nvim auto-bootstrap + plugins sync)
+  step "Pre-installing nvim plugins"
+  if command -v nvim &>/dev/null; then
+    nvim --headless "+Lazy! sync" +qa 2>&1 | tail -5 || true
+    info "nvim plugins synced"
+  else
+    warn "nvim not found, skipping plugin sync"
+  fi
+
+  # Change default shell to zsh
+  step "Setting default shell to zsh"
+  local current_shell; current_shell="$(getent passwd "$USER" | cut -d: -f7)"
+  if [[ "$current_shell" != "/usr/bin/zsh" ]]; then
+    chsh -s /usr/bin/zsh 2>&1 || warn "chsh failed - run manually: chsh -s /usr/bin/zsh"
+    info "Default shell changed to zsh"
+  else
+    info "Shell already zsh"
+  fi
 }
 
 post_install() {
   step "Post-install notes"
 
   printf '\n'
-  printf '%s\n' "$(color '1;32' 'Done! Next steps:')"
+  printf '%s\n' "$(color '1;32' 'Done! Everything is configured automatically:')"
   printf '\n'
+  printf '  - tmux plugins installed (tmux-menus ready, trigger: \\)\n'
+  printf '  - nvim plugins synced via lazy.nvim\n'
+  printf '  - default shell set to zsh\n'
+  printf '  - dotfiles symlinked into ~/.config\n'
+  printf '\n'
+  printf '%s\n' "$(color '1;33' 'Manual steps remaining:')"
   printf '  1. Reload Hyprland:        hyprctl reload\n'
-  printf '  2. Start tmux plugins:     tmux, then press Ctrl-a + I - capital i\n'
-  printf '  3. Open dev environment:   Super+D  - or run: tmux-dev\n'
-  printf '  4. Open nvim plugins:      nvim - lazy.nvim will auto-install\n'
-  printf '  5. Change shell to zsh:    chsh -s /usr/bin/zsh\n'
+  printf '  2. Open dev environment:   Super+D  - or run: tmux-dev\n'
+  printf '  3. Log out and back in for shell change to take effect\n'
   printf '\n'
   printf '%s\n' "$(color '1;33' 'Note: AUR packages need paru or yay.')"
   printf '%s\n' "$(color '1;33' 'Note: Some packages - metasploit, ffuf, etc - are not')"
