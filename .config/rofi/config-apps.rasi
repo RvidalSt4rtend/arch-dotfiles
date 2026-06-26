@@ -1,0 +1,68 @@
+/* ardal — app launcher */
+
+@theme "~/.config/rofi/themes/ardal-apps.rasi"
+
+configuration {
+  modi: "drun";
+  show-icons: true;
+  drun-display-format: "{name}";
+  display-drun: "Apps";
+}
+
+window {
+  width: 35%;
+  height: inherit;
+  background-color: rgba(10, 12, 18, 0.92);
+  border: 1px solid;
+  border-color: rgba(0, 200, 200, 0.2);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+mainbox {
+  children: [ "inputbar", "listview" ];
+}
+
+inputbar {
+  children: [ "prompt", "entry" ];
+  spacing: 8px;
+  padding: 12px;
+}
+
+prompt {
+  text-color: #00c8c8;
+}
+
+entry {
+  placeholder: " Buscar app...";
+  horizontal-align: 0;
+}
+
+listview {
+  columns: 1;
+  lines: 8;
+  spacing: 4px;
+  padding: 4px;
+}
+
+element {
+  orientation: horizontal;
+  padding: 8px;
+  spacing: 10px;
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+element.alternate.normal {
+  background-color: rgba(20, 22, 30, 0.5);
+}
+
+element-icon {
+  size: 32px;
+  margin: 0px 8px 0px 0px;
+}
+
+element-text {
+  vertical-align: 0.5;
+  padding: 8px 4px;
+}

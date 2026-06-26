@@ -1,0 +1,107 @@
+/* ardal — wallpaper menu theme
+ * Tokyo Night dark-glassmorphism palette matching waybar style.css.
+ * Used by config-wallpaper.rasi via @theme.
+ */
+
+* {
+  font: "JetBrains Mono Nerd Font 12";
+  text-color: #c0caf5;
+}
+
+window {
+  location: center;
+  anchor: center;
+  fullscreen: false;
+  width: 50%;
+  height: inherit;
+  background-color: rgba(10, 12, 18, 0.92);
+  border: 1px solid;
+  border-color: rgba(0, 200, 200, 0.2);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+mainbox {
+  children: [ "inputbar", "listview" ];
+  spacing: 8px;
+  background-color: transparent;
+  padding: 0px;
+}
+
+inputbar {
+  enabled: true;
+  spacing: 8px;
+  padding: 12px;
+  background-color: rgba(20, 22, 30, 0.6);
+  border-radius: 10px;
+  margin: 0px 0px 8px 0px;
+  children: [ "entry" ];
+}
+
+entry {
+  placeholder: "🌙  Buscar wallpaper...";
+  text-color: #c0caf5;
+  placeholder-color: #565f89;
+  horizontal-align: 0.5;
+  vertical-align: 0.5;
+  padding: 8px;
+  background-color: transparent;
+  border-radius: 8px;
+}
+
+listview {
+  columns: 3;
+  lines: 3;
+  flow: horizontal;
+  fixed-width: true;
+  fixed-height: true;
+  cycle: true;
+  spacing: 10px;
+  padding: 4px;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+element {
+  orientation: vertical;
+  padding: 4px;
+  spacing: 0px;
+  margin: 0px;
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+element.selected.normal {
+  background-color: rgba(0, 200, 200, 0.15);
+  border: 2px solid;
+  border-color: #00c8c8;
+}
+
+element-icon {
+  size: 96px;
+  border-radius: 8px;
+  margin: 4px;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+element-text {
+  vertical-align: 0.5;
+  horizontal-align: 0.5;
+  text-color: #a9b1d6;
+  padding: 6px 4px;
+  margin: 2px;
+  font-size: 11px;
+  background-color: transparent;
+}
+
+element-text.selected {
+  text-color: #00c8c8;
+}
+
+scrollbar {
+  width: 6px;
+  handle-color: rgba(0, 200, 200, 0.4);
+  border-radius: 3px;
+  background-color: transparent;
+}
