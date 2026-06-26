@@ -220,6 +220,24 @@ stow_dotfiles() {
     info "linked $dst -> $src"
   done
 
+  # ~/.zshrc -> symlinked from repo root
+  step "zshrc"
+  local zshrc_src="$DOTFILES_DIR/.zshrc"
+  local zshrc_dst="$HOME/.zshrc"
+  if [[ -f "$zshrc_src" ]]; then
+    if [[ -e "$zshrc_dst" && ! -L "$zshrc_dst" ]]; then
+      warn "Backing up existing $zshrc_dst -> ${zshrc_dst}.bak"
+      mv "$zshrc_dst" "${zshrc_dst}.bak"
+    fi
+    if [[ -L "$zshrc_dst" && ! -e "$zshrc_dst" ]]; then
+      rm "$zshrc_dst"
+    fi
+    ln -sf "$zshrc_src" "$zshrc_dst"
+    info "linked $zshrc_dst -> $zshrc_src"
+  else
+    warn "$zshrc_src not found, skipping"
+  fi
+
   # tmux dev session script -> ~/.local/bin
   step "Dev session script"
   mkdir -p "$HOME/.local/bin"
@@ -283,7 +301,7 @@ post_install() {
   printf '\n'
   printf '%s\n' "$(color '1;33' 'Manual steps remaining:')"
   printf '  1. Reload Hyprland:        hyprctl reload\n'
-  printf '  2. Open dev environment:   Super+D  - or run: tmux-dev\n'
+  printf '  2. Open dev environment:   cd <project> && run: tmux-dev\n'
   printf '  3. Log out and back in for shell change to take effect\n'
   printf '\n'
   printf '%s\n' "$(color '1;33' 'Note: AUR packages need paru or yay.')"
