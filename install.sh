@@ -105,12 +105,20 @@ PAC_TERMINAL=(
 # Bar + launcher + misc GUI
 PAC_GUI=(
   waybar
-  thunar thunar-archive-plugin thunar-volman tumbler
+  yazi
+  tumbler
   mpv mpv-mpris yt-dlp
   cava
   imagemagick ffmpegthumbnailer
   gvfs gvfs-mtp xdg-user-dirs
   gtk-engine-murrine
+)
+
+# Theming: GTK3 dark port of libadwaita + Qt theme engine
+PAC_THEME=(
+  adw-gtk-theme
+  kvantum kvantum-qt5
+  qt5ct qt6ct
 )
 
 # Fonts
@@ -170,6 +178,9 @@ install_packages() {
   step "GUI apps"
   install_pacman "${PAC_GUI[@]}"
 
+  step "Theming (GTK3 dark + Qt kvantum)"
+  install_pacman "${PAC_THEME[@]}"
+
   step "Fonts"
   install_pacman "${PAC_FONTS[@]}"
 
@@ -193,6 +204,8 @@ stow_dotfiles() {
     nvim
     tmux
     waybar
+    qt5ct
+    qt6ct
   )
 
   for cfg in "${configs[@]}"; do
@@ -298,11 +311,12 @@ post_install() {
   printf '  - nvim plugins synced via lazy.nvim\n'
   printf '  - default shell set to zsh\n'
   printf '  - dotfiles symlinked into ~/.config\n'
+  printf '  - Qt dark theme (kvantum + qt5ct/qt6ct) and GTK3 dark (adw-gtk3-dark) ready\n'
   printf '\n'
   printf '%s\n' "$(color '1;33' 'Manual steps remaining:')"
   printf '  1. Reload Hyprland:        hyprctl reload\n'
   printf '  2. Open dev environment:   cd <project> && run: tmux-dev\n'
-  printf '  3. Log out and back in for shell change to take effect\n'
+  printf '  3. Log out and back in for shell change + yazi on workspace 0 to take effect\n'
   printf '\n'
   printf '%s\n' "$(color '1;33' 'Note: AUR packages need paru or yay.')"
   printf '%s\n' "$(color '1;33' 'Note: Some packages - metasploit, ffuf, etc - are not')"
