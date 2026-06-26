@@ -3,7 +3,8 @@
 
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="agnosterzak"
+# Disable oh-my-zsh theme; prompt is handled by starship (below)
+ZSH_THEME=""
 
 plugins=(
     git
@@ -13,6 +14,10 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
+
+# Prompt: starship (Tokyo Night, waybar-aligned)
+# Must run AFTER oh-my-zsh so it wins PROMPT
+eval "$(starship init zsh)"
 
 # Check archlinux plugin commands here
 # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/archlinux
