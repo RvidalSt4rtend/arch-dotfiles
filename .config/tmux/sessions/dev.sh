@@ -40,28 +40,26 @@ if tmux has-session -t "$SESSION" 2>/dev/null && [[ "$FORCE_NEW" -eq 0 ]]; then
 fi
 
 # Create detached session with a single window named "dev".
-# Pane 0 starts as nvim.
-tmux new-session -d -s "$SESSION" -n dev -c "$WORKDIR"
-tmux send-keys -t "$SESSION:dev.0" "cd '$WORKDIR' && nvim" C-m
+# Capture dynamic pane IDs via -P to avoid hardcoding pane indices
+# (tmux.conf sets pane-base-index 1, and -f splits produce non-sequential
+# numbering, so fixed indices are fragile).
+TMUX_PANE_NEOVIM=$(tmux new-session -d -s "$SESSION" -n dev -c "$WORKDIR" -P -F '#{pane_id}')
+tmux send-keys -t "$TMUX_PANE_NEOVIM" "cd '$WORKDIR' && nvim" C-m
 
 # Split off the terminal at the bottom spanning the full width (-f).
-# This creates pane 1 below pane 0 covering the entire width.
-tmux split-window -v -f -t "$SESSION:dev.0" -c "$WORKDIR"
-# Now: pane 0 = nvim (top), pane 1 = terminal (bottom, full width)
+TMUX_PANE_TERMINAL=$(tmux split-window -v -f -t "$TMUX_PANE_NEOVIM" -c "$WORKDIR" -P -F '#{pane_id}')
 
 # Split the top pane (nvim) horizontally to get opencode on the right.
-# Use -t to target the top pane explicitly. After the -f split, pane 0 is
-# still the top one; splitting it -h produces a new pane to its right.
-tmux select-pane -t "$SESSION:dev.0"
-tmux split-window -h -t "$SESSION:dev.0" -c "$WORKDIR"
-tmux send-keys -t "$SESSION:dev.1" "cd '$WORKDIR' && opencode" C-m
-# Pane layout now: 0=nvim (top-left), 1=opencode (top-right), 2=terminal (bottom)
+# -p 5 makes the new pane (opencode) 5% of the width, so nvim gets 95%.
+TMUX_PANE_OPENCODE=$(tmux split-window -h -p 5 -t "$TMUX_PANE_NEOVIM" -c "$WORKDIR" -P -F '#{pane_id}')
+tmux send-keys -t "$TMUX_PANE_OPENCODE" "cd '$WORKDIR' && opencode" C-m
+# Pane layout: neovim (top-left, wide), opencode (top-right, narrow), terminal (bottom)
 
-# Resize: top row ~70%, terminal ~30%
-tmux resize-pane -t "$SESSION:dev.2" -y 6
+# Resize: terminal at bottom stays compact so the editor row dominates.
+tmux resize-pane -t "$TMUX_PANE_TERMINAL" -y 1
 
 # Focus the terminal pane so it's the default on attach
-tmux select-pane -t "$SESSION:dev.2"
+tmux select-pane -t "$TMUX_PANE_TERMINAL"
 
 # Attach
 tmux attach -t "$SESSION"
