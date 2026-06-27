@@ -8,7 +8,7 @@
     "margin-left": 8,
     "margin-right": 8,
 
-    "modules-left": ["hyprland/workspaces", "custom/mpris-prev", "custom/mpris-text", "custom/mpris-next"],
+    "modules-left": ["hyprland/workspaces"],
     "modules-center": ["clock"],
     "modules-right": ["memory", "network", "backlight", "pulseaudio", "pulseaudio#microphone", "battery", "tray"],
 
@@ -100,31 +100,5 @@
     "tray": {
         "icon-size": 16,
         "spacing": 6
-    },
-
-    "custom/mpris-text": {
-        "exec": "${HOME}/.config/waybar/scripts/media.sh text",
-        "exec-if": "${HOME}/.config/waybar/scripts/media.sh check",
-        "format": "󰝚 {}",
-        "max-length": 40,
-        "on-click": "playerctl play-pause",
-        "tooltip": "Click to play/pause",
-        "interval": 2
-    },
-
-    "custom/mpris-prev": {
-        "format": "󰒮",
-        "exec-if": "${HOME}/.config/waybar/scripts/media.sh check",
-        "on-click": "playerctl previous",
-        "tooltip": "Previous track",
-        "interval": 2
-    },
-
-    "custom/mpris-next": {
-        "format": "󰒭",
-        "exec-if": "${HOME}/.config/waybar/scripts/media.sh check",
-        "on-click": "playerctl next",
-        "tooltip": "Next track",
-        "interval": 2
     }
 }
