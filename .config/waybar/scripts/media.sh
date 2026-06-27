@@ -17,9 +17,11 @@ case "${1:-check}" in
     # exit 0 if ANY player's status line is exactly "Playing"
     playerctl --all-players status 2>/dev/null | grep -qi "^Playing$" ;;
   text)
-    # Find first Playing player and output "title - artist" (tab-separated parse)
-    playerctl --all-players --format "{{status}}	{{title}}	{{artist}}" 2>/dev/null \
-      | awk -F'\t' '$1 == "Playing" { print $2 " - " $3; exit }' ;;
+    # Find first Playing player and output "title - artist"
+    # NOTE: playerctl 2.4 requires the metadata subcommand for --format to work
+    # (using --format alone prints the help/usage instead).
+    playerctl --all-players metadata --format "{{playerName}}	{{status}}	{{title}}	{{artist}}" 2>/dev/null \
+      | awk -F'\t' '$2 == "Playing" { print $3 " - " $4; exit }' ;;
   icon)
     echo "󰝚" ;;
   *)
