@@ -1,0 +1,161 @@
+/* swaync style - ardal dotfiles (minimal, matches waybar palette) */
+/* Colors ported from waybar/style.css: Tokyo Night-ish
+ *   bg        rgba(10, 12, 18, 0.75)   #0a0c12 @ 0.75
+ *   bg-alt    rgba(20, 22, 30, 0.4)    #14161e @ 0.4
+ *   fg        #c0caf5
+ *   dim       #565f89
+ *   accent    rgba(0, 200, 200, ...)   #00c8c8  (matches hyprland active border)
+ */
+
+@define-color noti-bg rgba(10, 12, 18, 0.85);
+@define-color noti-bg-alt rgba(20, 22, 30, 0.6);
+@define-color noti-bg-hover rgba(0, 200, 200, 0.1);
+@define-color text-color #c0caf5;
+@define-color text-dim #565f89;
+@define-color accent rgba(0, 200, 200, 0.6);
+@define-color accent-solid #00c8c8;
+@define-color critical rgba(247, 118, 142, 0.8);
+
+* {
+    font-family: "JetBrains Mono Nerd Font", "Noto Sans", sans-serif;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* ---- notification popup ---- */
+.notification {
+    background: @noti-bg;
+    border: 2px solid @accent;
+    border-radius: 10px;
+    padding: 4px 10px;
+    margin: 4px;
+    color: @text-color;
+}
+
+.notification-row {
+    outline: none;
+}
+
+.notification-row:focus,
+.notification-row:hover {
+    background: @noti-bg-hover;
+    border-radius: 10px;
+}
+
+.notification-default-action {
+    margin: 0;
+    padding: 0;
+    border-radius: 10px;
+}
+
+.notification-content {
+    background: transparent;
+    padding: 4px 6px;
+}
+
+.summary {
+    font-size: 1rem;
+    color: @accent-solid;
+    padding: 2px 0;
+}
+
+.body {
+    font-size: 0.85rem;
+    font-weight: normal;
+    color: @text-color;
+    padding: 0 0 2px 0;
+}
+
+.time {
+    font-size: 0.75rem;
+    font-weight: normal;
+    color: @text-dim;
+}
+
+/* critical: red accent */
+.notification.critical {
+    border-color: @critical;
+}
+.notification.critical .summary {
+    color: @critical;
+}
+
+/* ---- control center ---- */
+.control-center {
+    background: @noti-bg;
+    border: 1px solid @accent;
+    border-radius: 12px;
+    padding: 8px;
+    color: @text-color;
+}
+
+.control-center .notification-row {
+    border-radius: 10px;
+}
+
+.widget-title {
+    color: @text-color;
+    font-size: 1.1rem;
+    padding: 6px 4px;
+    margin: 4px 0;
+    border-bottom: 1px solid @accent;
+}
+
+.widget-title .label {
+    color: @text-color;
+}
+
+.widget-title button {
+    background: transparent;
+    color: @text-dim;
+    border-radius: 6px;
+    padding: 0 8px;
+}
+
+.widget-title button:hover {
+    color: @accent-solid;
+    background: @noti-bg-hover;
+}
+
+/* DND toggle */
+.widget-dnd {
+    color: @text-color;
+    padding: 6px;
+}
+.widget-dnd .toggle {
+    background: @noti-bg-alt;
+    border-radius: 6px;
+    color: @text-color;
+}
+
+/* mpris / volume / backlight widgets */
+.widget-mpris {
+    background: @noti-bg-alt;
+    border-radius: 10px;
+    padding: 6px;
+    color: @text-color;
+}
+.widget-mpris-player {
+    padding: 4px;
+}
+.widget-volume,
+.widget-backlight {
+    padding: 4px 8px;
+    color: @text-color;
+}
+.widget-volume .label,
+.widget-backlight .label {
+    color: @accent-solid;
+    font-size: 1rem;
+    margin-right: 6px;
+}
+
+/* empty state */
+.control-center .notification {
+    border: none;
+}
+
+.control-center .notification-content {
+    background: @noti-bg-alt;
+    border-radius: 10px;
+}

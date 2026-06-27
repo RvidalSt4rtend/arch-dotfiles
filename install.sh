@@ -203,6 +203,7 @@ stow_dotfiles() {
     hypr
     kitty
     nvim
+    swaync
     tmux
     waybar
     fastfetch
@@ -245,6 +246,10 @@ stow_dotfiles() {
       nvim)
         per_file="true"
         local vfiles=(init.lua .stylua.toml lazy-lock.json lua)
+        ;;
+      swaync)
+        per_file="true"
+        local vfiles=(config.json style.css)
         ;;
     esac
 
