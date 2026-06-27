@@ -87,7 +87,7 @@ class MediaWindow(Gtk.ApplicationWindow):
         Layer.set_layer(self, Layer.Layer.TOP)
         Layer.set_anchor(self, Layer.Edge.TOP, True)
         Layer.set_anchor(self, Layer.Edge.RIGHT, True)
-        Layer.set_margin(self, Layer.Edge.TOP, 26)
+        Layer.set_margin(self, Layer.Edge.TOP, 14)
         Layer.set_margin(self, Layer.Edge.RIGHT, 12)
         Layer.set_keyboard_mode(self, Layer.KeyboardMode.ON_DEMAND)
         # close on Escape
