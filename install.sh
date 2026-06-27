@@ -106,6 +106,7 @@ PAC_TERMINAL=(
 # Bar + launcher + misc GUI
 PAC_GUI=(
   waybar
+  gtk4 gtk4-layer-shell python-gobject
   yazi
   tumbler
   mpv mpv-mpris yt-dlp
