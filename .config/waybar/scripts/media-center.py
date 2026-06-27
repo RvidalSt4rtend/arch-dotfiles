@@ -118,6 +118,7 @@ class MediaWindow(Gtk.ApplicationWindow):
             }}
             .empty {{ font-family: {FONT}; font-size: 14px; color: {DIM};
                       padding: 80px 16px; }}
+            .spinner {{ min-width: 64px; min-height: 64px; }}
         """)
         Gtk.StyleContext.add_provider_for_display(
             Gdk.Display.get_default(), css,
@@ -148,6 +149,13 @@ class MediaWindow(Gtk.ApplicationWindow):
         self.placeholder.set_halign(Gtk.Align.CENTER)
         outer.append(self.placeholder)
 
+        # spinner shown during track loading
+        self.spinner = Gtk.Spinner()
+        self.spinner.add_css_class("spinner")
+        self.spinner.set_halign(Gtk.Align.CENTER)
+        self.spinner.set_visible(False)
+        outer.append(self.spinner)
+
         # title / artist
         self.title_label = Gtk.Label(label="")
         self.title_label.add_css_class("title")
@@ -176,9 +184,9 @@ class MediaWindow(Gtk.ApplicationWindow):
         for b in (self.btn_prev, self.btn_play, self.btn_next):
             b.add_css_class("ctrl")
             controls.append(b)
-        self.btn_prev.connect("clicked", lambda *_: run("playerctl previous"))
+        self.btn_prev.connect("clicked", lambda *_: [self._show_loading(), run("playerctl previous")])
         self.btn_play.connect("clicked", lambda *_: run("playerctl play-pause"))
-        self.btn_next.connect("clicked", lambda *_: run("playerctl next"))
+        self.btn_next.connect("clicked", lambda *_: [self._show_loading(), run("playerctl next")])
 
         # track state
         self._watch = None
@@ -242,6 +250,7 @@ class MediaWindow(Gtk.ApplicationWindow):
 
     # ---- UI state refresh ----
     def update_track(self, player, status, title, artist, arturl):
+        self._hide_loading()
         self.player_label.set_label(f"{player} · {status}")
         self.title_label.set_label(title or "(no title)")
         self.artist_label.set_label(artist or "")
@@ -269,6 +278,7 @@ class MediaWindow(Gtk.ApplicationWindow):
         self.set_visible(True)
 
     def update_empty(self):
+        self._hide_loading()
         self.player_label.set_label("no player")
         self.title_label.set_label("")
         self.artist_label.set_label("")
@@ -280,6 +290,18 @@ class MediaWindow(Gtk.ApplicationWindow):
         self.art.set_visible(False)
         self.placeholder.set_visible(True)
         self._has_art = False
+
+    def _show_loading(self):
+        self.spinner.set_visible(True)
+        self.spinner.start()
+        self.art.set_visible(False)
+        self.placeholder.set_visible(False)
+        self.title_label.set_label("⋯")
+        self.artist_label.set_label("loading")
+
+    def _hide_loading(self):
+        self.spinner.stop()
+        self.spinner.set_visible(False)
 
 
 def main():
