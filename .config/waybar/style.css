@@ -214,7 +214,7 @@ tooltip label {
     background: rgba(0, 200, 200, 0.15);
 }
 
-#mpris {
+#custom-mpris-text {
     background: rgba(20, 22, 30, 0.4);
     border-radius: 0;
     margin: 4px 0;
@@ -223,16 +223,7 @@ tooltip label {
     transition: color 0.2s ease, background 0.2s ease;
 }
 
-#mpris:hover {
+#custom-mpris-text:hover {
     color: #00c8c8;
     background: rgba(0, 200, 200, 0.1);
-}
-
-/* paused state: italic + dimmed */
-#mpris.Paused {
-    color: #565f89;
-}
-
-#mpris.Paused label {
-    font-style: italic;
 }
