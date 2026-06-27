@@ -153,6 +153,7 @@ PAC_GRAPHICS=(
 # AUR-only packages
 AUR_PKGS=(
   zen-browser-bin
+  cursor-bin
   ttf-material-design-icons-git
   ttf-ms-fonts
   ttf-victor-mono
