@@ -184,3 +184,27 @@ tooltip {
 tooltip label {
     padding: 4px 8px;
 }
+
+/* ---- MPRIS (media control) ---- */
+#mpris {
+    background: rgba(20, 22, 30, 0.4);
+    border-radius: 10px;
+    margin: 4px 2px;
+    padding: 0 10px;
+    color: #c0caf5;
+    transition: color 0.2s ease, background 0.2s ease;
+}
+
+#mpris:hover {
+    color: #00c8c8;
+    background: rgba(0, 200, 200, 0.1);
+}
+
+/* paused state: italic + dimmed */
+#mpris.Paused {
+    color: #565f89;
+}
+
+#mpris.Paused label {
+    font-style: italic;
+}
