@@ -28,7 +28,7 @@
   "hide-on-clear": false,
   "hide-on-action": true,
   "script-fail-notify": true,
-  "widgets": ["dnd", "volume", "backlight", "title", "notifications"],
+  "widgets": ["dnd", "title", "notifications"],
   "widget-config": {
     "title": {
       "text": "Notifications",
@@ -37,17 +37,6 @@
     },
     "dnd": {
       "text": "Do Not Disturb"
-    },
-    "mpris": {
-      "image-size": 12,
-      "image-radius": 0
-    },
-    "volume": {
-      "label": "󰕾"
-    },
-    "backlight": {
-      "label": "󰃟",
-      "device": "amdgpu_bl1"
     }
   }
 }

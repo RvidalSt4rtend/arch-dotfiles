@@ -142,28 +142,6 @@
     color: @text-color;
 }
 
-/* mpris / volume / backlight widgets */
-.widget-mpris {
-    background: @noti-bg-alt;
-    border-radius: 10px;
-    padding: 6px;
-    color: @text-color;
-}
-.widget-mpris-player {
-    padding: 4px;
-}
-.widget-volume,
-.widget-backlight {
-    padding: 4px 8px;
-    color: @text-color;
-}
-.widget-volume .label,
-.widget-backlight .label {
-    color: @accent-solid;
-    font-size: 1rem;
-    margin-right: 6px;
-}
-
 /* empty state */
 .control-center .notification {
     border: none;
