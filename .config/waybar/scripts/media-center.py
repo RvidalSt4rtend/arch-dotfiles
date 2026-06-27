@@ -39,8 +39,8 @@ def run(cmd):
     """Spawn a shell command detached."""
     try:
         GLib.spawn_async(
-            None, ["sh", "-c", cmd], None,
-            GLib.SpawnFlags.SEARCH_PATH | GLib.SpawnFlags.DO_NOT_REAP_CHILD,
+            ["sh", "-c", cmd],
+            flags=GLib.SpawnFlags.SEARCH_PATH | GLib.SpawnFlags.DO_NOT_REAP_CHILD,
         )
     except Exception as e:
         print(f"spawn err: {e}", file=sys.stderr)
