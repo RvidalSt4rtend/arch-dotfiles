@@ -86,7 +86,7 @@ PAC_HYPRLAND=(
   xdg-desktop-portal-hyprland xdg-desktop-portal-gtk
   hyprcursor
   nwg-displays nwg-look
-  grim swappy
+  grim slurp swappy wl-clipboard
   wallust waypaper
   wlogout
   swaync
