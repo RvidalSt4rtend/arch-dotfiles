@@ -1,0 +1,29 @@
+# Monitor configuration template (PORTABLE EXAMPLE).
+# This file is NOT used directly by Hyprland. install.sh copies it to
+# ~/.config/hypr/monitors.conf on first install; edit that copy per machine.
+# Source'd from hyprland.conf. Hyprland hot-reloads on `hyprctl keyword monitor "..."`.
+# No semicolons; one rule per line; lowercase keys (matching repo style).
+
+# ---- Per-machine setup (edit after install) ----
+# Verify monitor names with `hyprctl monitors` and edit ~/.config/hypr/monitors.conf.
+monitor=eDP-1,1920x1080@60,0x0,1
+
+# Lid handling note (IMPORTANT):
+#   hypridle has NO lid event support (verified vs upstream docs). It only
+#   exposes idle-timeout listeners + D-Bus lock/sleep hooks. Toggling eDP-1
+#   on lid close therefore CANNOT be done from hypridle.conf alone.
+#
+#   Recommended approach (needs a system file outside this repo):
+#     /etc/systemd/logind.conf.d/lid.conf
+#       [Login]
+#       HandleLidSwitch=ignore
+#       HandleLidSwitchExternalPower=ignore
+#   Then let Hyprland/Hypridle disable eDP-1 via a udev rule, or run a small
+#   acpid script that calls:
+#       hyprctl keyword monitor "eDP-1,disable"        # lid close
+#       hyprctl keyword monitor "eDP-1,1920x1080@60,0x0,1"  # lid open
+#   See CHANGELOG/TODO: implement lid toggle as system-level drop-in.
+
+# External monitor template (uncomment + edit after checking actual name with
+# `hyprctl monitors`). Common names: HDMI-A-1, DP-1, DP-2.
+#monitor=HDMI-A-1,2560x1440@60,0x0,1

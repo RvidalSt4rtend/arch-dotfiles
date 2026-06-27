@@ -219,6 +219,67 @@ stow_dotfiles() {
       continue
     fi
 
+    # Some configs mix versioned files (symlinked from repo) with machine-local
+    # data (kitty-themes/, tmux plugins/, hypr monitors.conf) that must NOT be
+    # replaced by a dir-link. For those we stow PER FILE, leaving locals alone.
+    # The rest are simple dirs that stow cleanly as a dir-link.
+    local per_file="false"
+    case "$cfg" in
+      hypr)
+        per_file="true"
+        local vfiles=(hyprland.conf hypridle.conf)
+        ;;
+      kitty)
+        per_file="true"
+        local vfiles=(kitty.conf)
+        ;;
+      tmux)
+        per_file="true"
+        local vfiles=(tmux.conf sessions/dev.sh)
+        mkdir -p "$dst/plugins" "$dst/sessions"
+        ;;
+      waybar)
+        per_file="true"
+        local vfiles=(config.jsonc style.css scripts)
+        ;;
+      nvim)
+        per_file="true"
+        local vfiles=(init.lua .stylua.toml lazy-lock.json lua)
+        ;;
+    esac
+
+    if [[ "$per_file" == "true" ]]; then
+      # If dst is a dir-symlink (old whole-dir stow scheme), drop it so we can
+      # build a real dir with per-file symlinks inside. Without this, `rm -f
+      # "$dst/$vf"` would follow the symlink and delete files inside the repo.
+      if [[ -L "$dst" ]]; then
+        rm "$dst"
+      fi
+      mkdir -p "$dst"
+      local vf
+      for vf in "${vfiles[@]}"; do
+        if [[ -e "$src/$vf" ]]; then
+          mkdir -p "$dst/$(dirname "$vf")"
+          rm -f "$dst/$vf"
+          ln -sf "$src/$vf" "$dst/$vf"
+          info "linked $dst/$vf -> $src/$vf"
+        else
+          warn "source $src/$vf missing, skipped"
+        fi
+      done
+      # hypr: monitors.conf is machine-local — seed from .example on first install.
+      if [[ "$cfg" == "hypr" && ! -e "$dst/monitors.conf" ]]; then
+        if [[ -f "$src/monitors.conf.example" ]]; then
+          cp "$src/monitors.conf.example" "$dst/monitors.conf"
+          info "copied $src/monitors.conf.example -> $dst/monitors.conf (edit per machine)"
+        else
+          warn "monitors.conf.example missing; $dst/monitors.conf left unset"
+        fi
+      fi
+      continue
+    fi
+
+    # Simple configs: stow the whole directory as a single symlink.
     # Back up existing non-symlink config
     if [[ -e "$dst" && ! -L "$dst" ]]; then
       warn "Backing up existing $dst -> ${dst}.bak"
