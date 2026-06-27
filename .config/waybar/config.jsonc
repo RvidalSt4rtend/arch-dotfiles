@@ -8,7 +8,7 @@
     "margin-left": 8,
     "margin-right": 8,
 
-    "modules-left": ["hyprland/workspaces", "mpris"],
+    "modules-left": ["hyprland/workspaces", "custom/mpris-prev", "mpris", "custom/mpris-next"],
     "modules-center": ["clock"],
     "modules-right": ["memory", "network", "backlight", "pulseaudio", "pulseaudio#microphone", "battery", "tray"],
 
@@ -114,9 +114,22 @@
         },
         "ignored-players": [],
         "max-length": 40,
-        "on-click": "playerctl play-pause",
-        "on-click-right": "playerctl next",
-        "on-scroll-up": "playerctl next",
-        "on-scroll-down": "playerctl previous"
+        "on-click": "playerctl play-pause"
+    },
+
+    "custom/mpris-prev": {
+        "format": "󰒮",
+        "exec-if": "bash -c 'playerctl status 2>/dev/null | grep -qiE \"playing|paused\"'",
+        "on-click": "playerctl previous",
+        "tooltip": "Previous track",
+        "interval": 2
+    },
+
+    "custom/mpris-next": {
+        "format": "󰒭",
+        "exec-if": "bash -c 'playerctl status 2>/dev/null | grep -qiE \"playing|paused\"'",
+        "on-click": "playerctl next",
+        "tooltip": "Next track",
+        "interval": 2
     }
 }

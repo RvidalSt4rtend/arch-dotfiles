@@ -185,11 +185,39 @@ tooltip label {
     padding: 4px 8px;
 }
 
-/* ---- MPRIS (media control) ---- */
+/* ---- MPRIS (media control: prev | text | next) ---- */
+#custom-mpris-prev,
+#custom-mpris-next {
+    background: rgba(20, 22, 30, 0.4);
+    color: #c0caf5;
+    margin: 4px 0;
+    padding: 0 8px;
+    transition: color 0.2s ease, background 0.2s ease;
+    font-size: 13px;
+}
+
+#custom-mpris-prev {
+    border-radius: 10px 0 0 10px;
+    margin-right: 0;
+    padding-right: 6px;
+}
+
+#custom-mpris-next {
+    border-radius: 0 10px 10px 0;
+    margin-left: 0;
+    padding-left: 6px;
+}
+
+#custom-mpris-prev:hover,
+#custom-mpris-next:hover {
+    color: #00c8c8;
+    background: rgba(0, 200, 200, 0.15);
+}
+
 #mpris {
     background: rgba(20, 22, 30, 0.4);
-    border-radius: 10px;
-    margin: 4px 2px;
+    border-radius: 0;
+    margin: 4px 0;
     padding: 0 10px;
     color: #c0caf5;
     transition: color 0.2s ease, background 0.2s ease;
