@@ -8,9 +8,9 @@
     "margin-left": 8,
     "margin-right": 8,
 
-    "modules-left": ["hyprland/workspaces"],
+    "modules-left": ["hyprland/workspaces", "mpris"],
     "modules-center": ["clock"],
-    "modules-right": ["memory", "network", "backlight", "pulseaudio", "pulseaudio#microphone", "battery", "mpris", "tray"],
+    "modules-right": ["memory", "network", "backlight", "pulseaudio", "pulseaudio#microphone", "battery", "tray"],
 
     "hyprland/workspaces": {
         "active-only": false,
