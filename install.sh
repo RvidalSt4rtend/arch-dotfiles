@@ -154,6 +154,7 @@ PAC_GRAPHICS=(
 AUR_PKGS=(
   zen-browser-bin
   cursor-bin
+  quickshell
   ttf-material-design-icons-git
   ttf-ms-fonts
   ttf-victor-mono
@@ -205,6 +206,7 @@ stow_dotfiles() {
     hypr
     kitty
     nvim
+    qylock
     swaync
     tmux
     waybar
@@ -351,6 +353,31 @@ stow_dotfiles() {
     warn "TPM install_plugins script not found, skipping"
   fi
 
+  # Clone & deploy qylock — animated lock screen (Quickshell-based)
+  step "QYLock — animated lock screen"
+  local qylock_dir="$HOME/qylock"
+  if [[ ! -d "$qylock_dir" ]]; then
+    info "Cloning qylock..."
+    git clone https://github.com/Darkkal44/qylock.git "$qylock_dir"
+  else
+    info "qylock already cloned at $qylock_dir"
+  fi
+
+  # Deploy the Quickshell lock screen wrapper (non-interactive)
+  local target="$HOME/.local/share/quickshell-lockscreen"
+  rm -rf "$target"
+  cp -r "$qylock_dir/quickshell-lockscreen" "$target"
+  ln -sfn "$qylock_dir/themes" "$target/themes_link"
+  chmod +x "$target/lock.sh"
+  info "qylock lock screen deployed to $target"
+
+  # Set default lock screen theme from dotfiles (or fallback)
+  if [[ -f "$DOTFILES_DIR/.config/qylock/theme" ]]; then
+    mkdir -p "$HOME/.config/qylock"
+    cp "$DOTFILES_DIR/.config/qylock/theme" "$HOME/.config/qylock/theme"
+    info "qylock theme set: $(cat "$HOME/.config/qylock/theme")"
+  fi
+
   # Pre-install nvim plugins (lazy.nvim auto-bootstrap + plugins sync)
   step "Pre-installing nvim plugins"
   if command -v nvim &>/dev/null; then
@@ -382,6 +409,7 @@ post_install() {
   printf '  - default shell set to zsh\n'
   printf '  - dotfiles symlinked into ~/.config\n'
   printf '  - Qt dark theme (kvantum + qt5ct/qt6ct) and GTK3 dark (adw-gtk3-dark) ready\n'
+  printf '  - qylock lock screen deployed (Super+L, $HOME/.local/share/quickshell-lockscreen/)\n'
   printf '\n'
   printf '%s\n' "$(color '1;33' 'Manual steps remaining:')"
   printf '  1. Reload Hyprland:        hyprctl reload\n'
